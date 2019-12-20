@@ -3,6 +3,8 @@
 <script> src = "https://unpkg.com/vue2.5.17"</script>
 
 <div id="app">
-    <p>{{ items[0].name }}</p>
+    <p>{{ items[0].name }}: {{ items[0].price }} * {{ items[0].quantity }}</p>
+    <p>小径 {{totalPrice | numberWithDelimeter}}円</p>
+    <p>合計: {{totalPriceWithTax | numberWithDelimeter}}円</p>
 </div>
 <script> src="app.js"</script>
