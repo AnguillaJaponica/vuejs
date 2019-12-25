@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<title>初めてのVue.js</title>
+<title>SPA sample application</title>
 <script> src = "https://unpkg.com/vue2.5.17"</script>
 
 <div id="app">
-    <p>{{ items[0].name }}: {{ items[0].price }} * {{ items[0].quantity }}</p>
-    <p>小径 {{totalPrice | numberWithDelimeter}}円</p>
-    <p>合計: {{totalPriceWithTax | numberWithDelimeter}}円</p>
+    <nav>
+        <!-- router-linkによるナビゲーション定義 -->
+        <router-link to="/top">トップページ</router-link>
+        <router-link to="/users"></router-link>
+    </nav>
+    <router-view></router-view>
 </div>
 <script> src="app.js"</script>
