@@ -1,13 +1,83 @@
 <!DOCTYPE html>
-<title>SPA sample application</title>
-<script> src = "https://unpkg.com/vue2.5.17"</script>
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SPAサンプルアプリ</title>
+</head>
+<body>
 <div id="app">
     <nav>
-        <!-- router-linkによるナビゲーション定義 -->
         <router-link to="/top">トップページ</router-link>
-        <router-link to="/users"></router-link>
+        <router-link to="/users">ユーザ一覧</router-link>
+        <router-link to="/users/new?redirect=true">ユーザ新規登録</router-link>
+        <router-link to="/login" v-show="!Auth.loggedin()">ログイン</router-link>
+        <router-link to="/logout" v-show="Auth.loggedin()">ログアウト</router-link>
     </nav>
     <router-view></router-view>
 </div>
-<script> src="app.js"</script>
+<script type="text/x-template" id="user-list">
+    <div>
+        <div class="loading" v-if="loading">読み込み中...</div>
+        <div v-else-if="error" class="error">
+            {{error}}
+        </div>
+        <div v-for="user in users" :key="user.id">
+            <h2>{{user.name}}</h2>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" id="user-detail">
+    <div>
+        <div class="loading" v-if="loading">読み込み中...</div>
+        <div v-else-if="error" class="error">
+            {{error}}
+        </div>
+        <div v-if="user">
+            <h2>{{user.name}}</h2>
+            <p>{{user.description}}</p>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" id="user-create">
+    <div>
+        <div class="sending" v-if="sending">Sending...</div>
+        <div>
+            <h2>ユーザ新規作成</h2>
+            <div>
+                <label>名前:</label>
+                <input type="text" v-model="user.name">
+            </div>
+            <div>
+                <label>説明文</label>
+                <textarea cols="30" rows="10" v-model="user.description"></textarea>
+            </div>
+            <div v-if="error" class="error">
+                {{error}}
+            </div>
+            <div>
+                <input type="button" @click="createUser" value="送信">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-template" id="login">
+    <div>
+        <h2>Login</h2>
+        <p v-if="$route.query.redirect">
+            ログインしてください
+        </p>
+        <form @submit.prevent="login">
+            <label><input type="email" placeholder="email" v-model="email"></label>
+            <label><input type="password" placeholder="password" v-model="password"></label>
+            <button type="submit">ログイン</button>
+            <p v-if="error" class="error">ログインに失敗しました</p>
+        </form>
+    </div>
+</script>
+<script src="../vue.js"></script>
+<script src="../vue-router.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
